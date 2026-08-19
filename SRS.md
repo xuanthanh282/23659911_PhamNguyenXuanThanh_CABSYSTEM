@@ -230,7 +230,7 @@ dùng công cụ mermaid để vẽ sơ đồ
 ## Bước 9: Mô hình hóa dữ liệu (data modeling)
 
 1. Các thực thể chính
-   | STT    | Thực thể                           | Một số thuộc tính chính                                                            |
+| STT    | Thực thể                           | Một số thuộc tính chính                                                            |
 | ------ | ---------------------------------- | ---------------------------------------------------------------------------------- |
 | **1**  | **Khách hàng (Customer)**          | CustomerID, Họ tên, SĐT, Email, Địa chỉ, Trạng thái                                |
 | **2**  | **Tài xế (Driver)**                | DriverID, Họ tên, SĐT, Email, Trạng thái hoạt động, Vị trí                         |
