@@ -189,6 +189,35 @@ dùng công cụ mermaid để vẽ sơ đồ
 | **FR24** | Ghi nhận nhật ký các thao tác quan trọng                       |
 | **FR25** | Cung cấp báo cáo và thống kê hoạt động                         |
 
+## Bước 8: Quy tắc nghiệp (Business Rules) vụ và ngoại lệ (Exception)
 
+| Mã       | Quy tắc nghiệp vụ                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------------- |
+| **BR01** | Khách hàng phải **đăng nhập** trước khi đặt xe.                                                             |
+| **BR02** | Tài xế chỉ được nhận chuyến khi ở trạng thái **sẵn sàng**.                                                  |
+| **BR03** | Hệ thống ưu tiên tài xế **phù hợp và gần điểm đón**.                                                        |
+| **BR04** | Tài xế có quyền **chấp nhận hoặc từ chối** chuyến được gửi đến.                                             |
+| **BR05** | Nếu tài xế từ chối hoặc không phản hồi trong thời gian quy định, hệ thống phải **tìm tài xế khác**.         |
+| **BR06** | Một chuyến xe chỉ được **gán cho một tài xế** tại một thời điểm.                                            |
+| **BR07** | Tài xế phải cập nhật đúng trạng thái: **Đã đến → Đã đón khách → Đang di chuyển → Hoàn thành**.              |
+| **BR08** | Cước chuyến xe được tính dựa trên **loại dịch vụ và thông tin chuyến đi** theo chính sách của doanh nghiệp. |
+| **BR09** | Khách hàng có thể thanh toán bằng **tiền mặt hoặc thanh toán điện tử**.                                     |
+| **BR10** | Thông tin thanh toán nhạy cảm **không được lưu trực tiếp** trên hệ thống CAB.                               |
+| **BR11** | Khách hàng chỉ được đánh giá tài xế **sau khi chuyến đi hoàn thành**.                                       |
+| **BR12** | Chỉ nhân viên có **đúng quyền hạn** mới được thực hiện các thao tác quản trị nhạy cảm.                      |
+| **BR13** | Các thao tác quan trọng phải được **ghi nhật ký** để phục vụ kiểm tra.                                      |
+| **BR14** | Dữ liệu cá nhân, vị trí và giao dịch phải được **bảo vệ** theo chính sách bảo mật của doanh nghiệp.         |
 
+| Mã       | Ngoại lệ                                     | Cách xử lý                                                                                |
+| -------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **EX01** | Không tìm được tài xế                        | Thông báo cho khách hàng và kết thúc yêu cầu đặt xe.                                      |
+| **EX02** | Tài xế từ chối chuyến                        | Hệ thống tự động tìm tài xế khác.                                                         |
+| **EX03** | Tài xế không phản hồi                        | Sau thời gian quy định, hệ thống chuyển sang tìm tài xế khác.                             |
+| **EX04** | Thanh toán điện tử thất bại                  | Thông báo cho khách hàng và cho phép thực hiện thanh toán lại theo chính sách.            |
+| **EX05** | Mất kết nối mạng                             | Hệ thống lưu/đồng bộ lại dữ liệu khi có kết nối; không làm mất trạng thái chuyến.         |
+| **EX06** | Tài xế mất kết nối khi đang thực hiện chuyến | Hệ thống ghi nhận trạng thái cuối cùng và thông báo cho bộ phận vận hành xử lý.           |
+| **EX07** | Hệ thống thông báo gặp lỗi                   | Thử gửi lại hoặc chuyển sang kênh thông báo khác nếu có. Không làm dừng quy trình đặt xe. |
+| **EX08** | Dịch vụ thanh toán bên ngoài không hoạt động | Thông báo lỗi và cho phép khách hàng sử dụng phương thức thanh toán khác theo chính sách. |
+| **EX09** | Tài xế không còn sẵn sàng sau khi được chọn  | Hủy phân công và tiếp tục tìm tài xế khác.                                                |
+| **EX10** | Người dùng không có quyền truy cập chức năng | Từ chối thao tác và thông báo không đủ quyền.                                             |
 
