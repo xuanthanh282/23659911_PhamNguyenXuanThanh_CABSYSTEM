@@ -80,7 +80,19 @@ LOW INTEREST ───────────────┼──────�
 | **Driver**                | 🟠 Trung bình     | Người trực tiếp tham gia Driver Matching và Trip                   |
 | **Notification Provider** | 🟡 Trung bình     | Ảnh hưởng đến Notification nhưng không quyết định toàn bộ hệ thống |
 
-**Bước 3:**
+**Bước 3:Tìm business goal**
+Business Goal là mục tiêu kinh doanh mà doanh nghiệp muốn đạt được khi xây dựng hệ thống.
+
+| STT | Business Goal                                                                                                                    |
+| --- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Tự động hóa quy trình đặt xe và phân công tài xế**, giảm phụ thuộc vào thao tác thủ công.                                      |
+| 2   | **Nâng cao trải nghiệm khách hàng** thông qua đặt xe nhanh, theo dõi trạng thái và vị trí chuyến đi.                             |
+| 3   | **Nâng cao hiệu quả vận hành** trong việc quản lý khách hàng, tài xế, phương tiện và chuyến đi.                                  |
+| 4   | **Quản lý tập trung thanh toán và giao dịch**, hỗ trợ cả tiền mặt và thanh toán điện tử.                                         |
+| 5   | **Tăng tỷ lệ chuyến được hoàn thành** bằng cơ chế tự động tìm tài xế khác khi tài xế từ chối hoặc không phản hồi.                |
+| 6   | **Đảm bảo hệ thống ổn định và bảo mật**, đặc biệt khi lượng khách hàng và tài xế tăng cao.                                       |
+| 7   | **Xây dựng nền tảng có khả năng mở rộng**, dễ dàng bổ sung dịch vụ, phương thức thanh toán và kênh thông báo mới.                |
+| 8   | **Hỗ trợ doanh nghiệp ra quyết định** thông qua báo cáo về số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế. |
 
 
 
