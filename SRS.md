@@ -227,3 +227,49 @@ dùng công cụ mermaid để vẽ sơ đồ
 | **EX09** | Tài xế không còn sẵn sàng sau khi được chọn  | Hủy phân công và tiếp tục tìm tài xế khác.                                                |
 | **EX10** | Người dùng không có quyền truy cập chức năng | Từ chối thao tác và thông báo không đủ quyền.                                             |
 
+## Bước 9: Mô hình hóa dữ liệu (data modeling)
+
+1. Các thực thể chính
+   | STT    | Thực thể                           | Một số thuộc tính chính                                                            |
+| ------ | ---------------------------------- | ---------------------------------------------------------------------------------- |
+| **1**  | **Khách hàng (Customer)**          | CustomerID, Họ tên, SĐT, Email, Địa chỉ, Trạng thái                                |
+| **2**  | **Tài xế (Driver)**                | DriverID, Họ tên, SĐT, Email, Trạng thái hoạt động, Vị trí                         |
+| **3**  | **Phương tiện (Vehicle)**          | VehicleID, Biển số, Loại xe, Hãng xe, Màu xe, Trạng thái                           |
+| **4**  | **Loại dịch vụ (ServiceType)**     | ServiceID, Tên dịch vụ, Mô tả                                                      |
+| **5**  | **Chuyến xe (Trip)**               | TripID, CustomerID, DriverID, VehicleID, Điểm đón, Điểm đến, Thời gian, Trạng thái |
+| **6**  | **Yêu cầu đặt xe (Booking)**       | BookingID, CustomerID, ServiceID, Thời gian yêu cầu, Trạng thái                    |
+| **7**  | **Thanh toán (Payment)**           | PaymentID, TripID, Số tiền, Phương thức, Trạng thái, Thời gian                     |
+| **8**  | **Đánh giá (Rating)**              | RatingID, TripID, CustomerID, DriverID, Điểm đánh giá, Nhận xét                    |
+| **9**  | **Thông báo (Notification)**       | NotificationID, Người nhận, Nội dung, Loại thông báo, Thời gian, Trạng thái        |
+| **10** | **Tài khoản (Account)**            | AccountID, Username, Password, Role, Trạng thái                                    |
+| **11** | **Nhân viên vận hành (Staff)**     | StaffID, Họ tên, SĐT, Email, Chức vụ, Quyền hạn                                    |
+| **12** | **Vị trí tài xế (DriverLocation)** | LocationID, DriverID, Vĩ độ, Kinh độ, Thời gian cập nhật                           |
+
+2. Mối quan hệ chính
+
+   KHÁCH HÀNG
+    │
+    │ 1 ─── N
+    ▼
+YÊU CẦU ĐẶT XE
+    │
+    │ 1 ─── 1
+    ▼
+  CHUYẾN XE
+    │
+    ├──────── N ─── 1 ─── TÀI XẾ
+    │                         │
+    │                         │ 1 ─── N
+    │                         ▼
+    │                  VỊ TRÍ TÀI XẾ
+    │
+    ├──────── N ─── 1 ─── PHƯƠNG TIỆN
+    │
+    ├──────── 1 ─── 1 ─── THANH TOÁN
+    │
+    └──────── 1 ─── 1 ─── ĐÁNH GIÁ
+
+   3. Quan hệ chi tiết
+# Bước 10. Xác định yêu cầu không phải chức năng
+
+
