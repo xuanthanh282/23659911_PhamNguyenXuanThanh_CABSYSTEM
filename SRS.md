@@ -83,16 +83,17 @@ LOW INTEREST ───────────────┼──────�
 ## Bước 3:Tìm business goal
 Business Goal là mục tiêu kinh doanh mà doanh nghiệp muốn đạt được khi xây dựng hệ thống.
 
-| STT | Business Goal                                                                                                                    |
-| --- | -------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Tự động hóa quy trình đặt xe và phân công tài xế**, giảm phụ thuộc vào thao tác thủ công.                                      |
-| 2   | **Nâng cao trải nghiệm khách hàng** thông qua đặt xe nhanh, theo dõi trạng thái và vị trí chuyến đi.                             |
-| 3   | **Nâng cao hiệu quả vận hành** trong việc quản lý khách hàng, tài xế, phương tiện và chuyến đi.                                  |
-| 4   | **Quản lý tập trung thanh toán và giao dịch**, hỗ trợ cả tiền mặt và thanh toán điện tử.                                         |
-| 5   | **Tăng tỷ lệ chuyến được hoàn thành** bằng cơ chế tự động tìm tài xế khác khi tài xế từ chối hoặc không phản hồi.                |
-| 6   | **Đảm bảo hệ thống ổn định và bảo mật**, đặc biệt khi lượng khách hàng và tài xế tăng cao.                                       |
-| 7   | **Xây dựng nền tảng có khả năng mở rộng**, dễ dàng bổ sung dịch vụ, phương thức thanh toán và kênh thông báo mới.                |
-| 8   | **Hỗ trợ doanh nghiệp ra quyết định** thông qua báo cáo về số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế. |
+| Business Goal                                | Mục tiêu cụ thể                                                                                   |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **BG1. Tự động hóa đặt xe**                  | Tự động tiếp nhận yêu cầu và tìm/phân công tài xế phù hợp thay cho việc phân công thủ công.       |
+| **BG2. Nâng cao trải nghiệm khách hàng**     | Cho phép khách hàng đặt xe, theo dõi trạng thái, vị trí tài xế, thanh toán và đánh giá chuyến đi. |
+| **BG3. Nâng cao hiệu quả vận hành**          | Giúp nhân viên quản lý tập trung khách hàng, tài xế, phương tiện và chuyến đi.                    |
+| **BG4. Quản lý thanh toán tập trung**        | Quản lý cước và kết quả thanh toán, đồng thời tích hợp với nhà cung cấp thanh toán bên ngoài.     |
+| **BG5. Tăng khả năng đáp ứng chuyến xe**     | Tự động tìm tài xế khác khi tài xế được đề xuất không phản hồi hoặc từ chối.                      |
+| **BG6. Đảm bảo hệ thống ổn định và an toàn** | Đảm bảo hệ thống hoạt động khi tải cao, bảo vệ dữ liệu và kiểm soát quyền truy cập.               |
+| **BG7. Hỗ trợ mở rộng trong tương lai**      | Dễ dàng bổ sung loại dịch vụ, phương thức thanh toán, kênh thông báo và các chức năng mới.        |
+| **BG8. Hỗ trợ quản lý và ra quyết định**     | Cung cấp báo cáo về số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế.         |
+
 
 
 
