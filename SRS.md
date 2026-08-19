@@ -269,17 +269,94 @@ User/Admin
        │
        └── AuditLog
 
-### Cardinality cơ bản
+# Bước 10. Xác định yêu cầu không phải chức năng (Non-Functional Requirements)
 
-* Một *Customer* có thể tạo nhiều *Booking*.
-* Một *Booking* tương ứng với một chuyến được thực hiện sau khi tìm được Driver.
-* Một *Driver* có thể thực hiện nhiều *Trip* theo thời gian.
-* Một *Driver* có phương tiện và nhiều bản ghi *Location*.
-* Một *Trip* có thông tin *Fare* và *Payment*.
-* Một *Trip hoàn thành* có thể có *Rating* từ Customer.
-* Một *Payment* có thể phát sinh dữ liệu *Transaction*.
+| Mã        | Nhóm                           | Yêu cầu phi chức năng                                                                                                            |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **NFR01** | **Hiệu năng**                  | Hệ thống phải phản hồi nhanh khi khách hàng đặt xe và tìm tài xế.                                                                |
+| **NFR02** | **Khả năng chịu tải**          | Hệ thống phải hoạt động ổn định khi số lượng khách hàng và tài xế tăng cao.                                                      |
+| **NFR03** | **Khả năng mở rộng**           | Các thành phần như tìm tài xế, thanh toán, thông báo có thể mở rộng độc lập khi tải tăng.                                        |
+| **NFR04** | **Tính sẵn sàng**              | Lỗi ở một thành phần như thanh toán hoặc thông báo không được làm toàn bộ hệ thống đặt xe ngừng hoạt động.                       |
+| **NFR05** | **Bảo mật**                    | Hệ thống phải xác thực người dùng trước khi sử dụng các chức năng yêu cầu tài khoản.                                             |
+| **NFR06** | **Phân quyền**                 | Chỉ người dùng có quyền phù hợp mới được thực hiện các chức năng quản trị hoặc thao tác nhạy cảm.                                |
+| **NFR07** | **Bảo vệ dữ liệu**             | Thông tin cá nhân, thông tin phương tiện, dữ liệu vị trí và dữ liệu giao dịch phải được bảo vệ.                                  |
+| **NFR08** | **Audit/Logging**              | Hệ thống phải ghi lại các thao tác quan trọng để phục vụ kiểm tra và xử lý sự cố.                                                |
+| **NFR09** | **Khả năng tích hợp**          | Hệ thống phải có khả năng tích hợp với nhà cung cấp thanh toán và các dịch vụ thông báo bên ngoài.                               |
+| **NFR10** | **Khả năng bảo trì**           | Hệ thống phải được thiết kế theo các thành phần độc lập để có thể thay đổi hoặc nâng cấp từng phần.                              |
+| **NFR11** | **Khả năng mở rộng chức năng** | Có thể bổ sung loại dịch vụ, phương thức thanh toán hoặc nhà cung cấp thông báo mới mà không phải xây dựng lại toàn bộ hệ thống. |
+| **NFR12** | **Khôi phục lỗi**              | Hệ thống phải có cơ chế xử lý và khôi phục khi xảy ra lỗi mạng, thanh toán hoặc dịch vụ bên ngoài.                               |
 
-Lưu ý: đây là *conceptual data model* suy ra từ requirement. Tài liệu chưa cung cấp chi tiết attribute, khóa chính/khóa ngoại hay cardinality đầy đủ, nên các phần đó cần được làm rõ ở bước *ERD / Logical Data Model* sau. 
-# Bước 10. Xác định yêu cầu không phải chức năng
+## Bước 11: Tiến hành thiết kế các use case (UC)
+flowchart LR
 
+    KH["👤 Khách hàng"]
+    TX["🚗 Tài xế"]
+    NV["👨‍💼 Nhân viên vận hành"]
+    BGD["👔 Ban giám đốc"]
+    QT["🔐 Quản trị viên"]
 
+    subgraph CAB["CAB SYSTEM – Nền tảng đặt xe"]
+
+        UC01(("Đăng ký tài khoản"))
+        UC02(("Đăng nhập"))
+        UC03(("Đặt xe"))
+        UC04(("Tìm tài xế sẵn có"))
+        UC05(("Nhận / Từ chối chuyến"))
+        UC06(("Theo dõi chuyến đi"))
+        UC07(("Cập nhật trạng thái chuyến"))
+        UC08(("Tính cước"))
+        UC09(("Thanh toán"))
+        UC10(("Nhận thông báo"))
+        UC11(("Xem lịch sử chuyến"))
+        UC12(("Đánh giá tài xế"))
+
+        UC13(("Quản lý khách hàng"))
+        UC14(("Quản lý tài xế"))
+        UC15(("Quản lý phương tiện"))
+        UC16(("Quản lý chuyến đi"))
+        UC17(("Xử lý chuyến bị lỗi"))
+        UC18(("Tra cứu giao dịch"))
+
+        UC19(("Xem báo cáo / thống kê"))
+        UC20(("Quản lý phân quyền"))
+    end
+
+    %% Khách hàng
+    KH --> UC01
+    KH --> UC02
+    KH --> UC03
+    KH --> UC06
+    KH --> UC09
+    KH --> UC10
+    KH --> UC11
+    KH --> UC12
+
+    %% Tài xế
+    TX --> UC01
+    TX --> UC02
+    TX --> UC05
+    TX --> UC07
+    TX --> UC10
+
+    %% Nhân viên vận hành
+    NV --> UC13
+    NV --> UC14
+    NV --> UC15
+    NV --> UC16
+    NV --> UC17
+    NV --> UC18
+
+    %% Ban giám đốc
+    BGD --> UC19
+
+    %% Quản trị viên
+    QT --> UC20
+
+    %% Quan hệ giữa các Use Case
+    UC03 -.->|include| UC04
+    UC03 -.->|include| UC08
+    UC08 -.->|include| UC09
+    UC05 -.->|include| UC10
+    UC07 -.->|include| UC10
+## Bước 12: Đặc tả use case 
+## Bước 13: Acception tiêu chí chấp nhận AC
