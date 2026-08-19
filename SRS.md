@@ -191,6 +191,9 @@ dùng công cụ mermaid để vẽ sơ đồ
 
 ## Bước 8: Quy tắc nghiệp (Business Rules) vụ và ngoại lệ (Exception)
 
+
+(Business Rules)
+
 | Mã       | Quy tắc nghiệp vụ                                                                                           |
 | -------- | ----------------------------------------------------------------------------------------------------------- |
 | **BR01** | Khách hàng phải **đăng nhập** trước khi đặt xe.                                                             |
@@ -207,6 +210,9 @@ dùng công cụ mermaid để vẽ sơ đồ
 | **BR12** | Chỉ nhân viên có **đúng quyền hạn** mới được thực hiện các thao tác quản trị nhạy cảm.                      |
 | **BR13** | Các thao tác quan trọng phải được **ghi nhật ký** để phục vụ kiểm tra.                                      |
 | **BR14** | Dữ liệu cá nhân, vị trí và giao dịch phải được **bảo vệ** theo chính sách bảo mật của doanh nghiệp.         |
+
+
+(Exception)
 
 | Mã       | Ngoại lệ                                     | Cách xử lý                                                                                |
 | -------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
