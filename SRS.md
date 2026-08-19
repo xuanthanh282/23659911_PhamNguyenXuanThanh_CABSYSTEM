@@ -228,48 +228,58 @@ dùng công cụ mermaid để vẽ sơ đồ
 | **EX10** | Người dùng không có quyền truy cập chức năng | Từ chối thao tác và thông báo không đủ quyền.                                             |
 
 ## Bước 9: Mô hình hóa dữ liệu (data modeling)
+Dựa trên yêu cầu hiện tại, các *Business Entity* chính của CAB System có thể xác định như sau. 
 
-1. Các thực thể chính
-| STT    | Thực thể                           | Một số thuộc tính chính                                                            |
-| ------ | ---------------------------------- | ---------------------------------------------------------------------------------- |
-| **1**  | **Khách hàng (Customer)**          | CustomerID, Họ tên, SĐT, Email, Địa chỉ, Trạng thái                                |
-| **2**  | **Tài xế (Driver)**                | DriverID, Họ tên, SĐT, Email, Trạng thái hoạt động, Vị trí                         |
-| **3**  | **Phương tiện (Vehicle)**          | VehicleID, Biển số, Loại xe, Hãng xe, Màu xe, Trạng thái                           |
-| **4**  | **Loại dịch vụ (ServiceType)**     | ServiceID, Tên dịch vụ, Mô tả                                                      |
-| **5**  | **Chuyến xe (Trip)**               | TripID, CustomerID, DriverID, VehicleID, Điểm đón, Điểm đến, Thời gian, Trạng thái |
-| **6**  | **Yêu cầu đặt xe (Booking)**       | BookingID, CustomerID, ServiceID, Thời gian yêu cầu, Trạng thái                    |
-| **7**  | **Thanh toán (Payment)**           | PaymentID, TripID, Số tiền, Phương thức, Trạng thái, Thời gian                     |
-| **8**  | **Đánh giá (Rating)**              | RatingID, TripID, CustomerID, DriverID, Điểm đánh giá, Nhận xét                    |
-| **9**  | **Thông báo (Notification)**       | NotificationID, Người nhận, Nội dung, Loại thông báo, Thời gian, Trạng thái        |
-| **10** | **Tài khoản (Account)**            | AccountID, Username, Password, Role, Trạng thái                                    |
-| **11** | **Nhân viên vận hành (Staff)**     | StaffID, Họ tên, SĐT, Email, Chức vụ, Quyền hạn                                    |
-| **12** | **Vị trí tài xế (DriverLocation)** | LocationID, DriverID, Vĩ độ, Kinh độ, Thời gian cập nhật                           |
+| Entity           | Dữ liệu chính                                                           |
+| ---------------- | ----------------------------------------------------------------------- |
+| *Customer*     | CustomerID, Name, Phone, Email, Profile                                 |
+| *Driver*       | DriverID, Name, Phone, Status, CurrentLocation                          |
+| *Vehicle*      | VehicleID, DriverID, VehicleType, PlateNumber, VehicleInfo              |
+| *Booking*      | BookingID, CustomerID, PickupLocation, Destination, ServiceType, Status |
+| *Trip*         | TripID, BookingID, DriverID, StartTime, EndTime, TripStatus             |
+| *Location*     | LocationID, DriverID, Latitude, Longitude, Timestamp                    |
+| *Fare*         | FareID, TripID, Amount, ServiceType                                     |
+| *Payment*      | PaymentID, TripID, Method, Amount, PaymentStatus                        |
+| *Rating*       | RatingID, TripID, CustomerID, DriverID, Score, Comment                  |
+| *Notification* | NotificationID, UserID, Type, Content, Status                           |
+| *Transaction*  | TransactionID, PaymentID, Amount, Status, CreatedAt                     |
+| *AuditLog*     | LogID, UserID, Action, Timestamp                                        |
 
-2. Mối quan hệ chính
+### Quan hệ dữ liệu chính
 
-   KHÁCH HÀNG
-    │
-    │ 1 ─── N
-    ▼
-YÊU CẦU ĐẶT XE
-    │
-    │ 1 ─── 1
-    ▼
-  CHUYẾN XE
-    │
-    ├──────── N ─── 1 ─── TÀI XẾ
-    │                         │
-    │                         │ 1 ─── N
-    │                         ▼
-    │                  VỊ TRÍ TÀI XẾ
-    │
-    ├──────── N ─── 1 ─── PHƯƠNG TIỆN
-    │
-    ├──────── 1 ─── 1 ─── THANH TOÁN
-    │
-    └──────── 1 ─── 1 ─── ĐÁNH GIÁ
+text
+Customer
+   │
+   └── creates ──> Booking
+                     │
+                     └── generates ──> Trip
+                                        │
+Driver ───────────────┘                 │
+   │                                    ├── Fare
+   ├── Vehicle                          ├── Payment
+   └── Location                         └── Rating
 
-   3. Quan hệ chi tiết
+Payment ──> Transaction
+
+Customer / Driver
+       │
+       └── Notification
+
+User/Admin
+       │
+       └── AuditLog
+
+### Cardinality cơ bản
+
+* Một *Customer* có thể tạo nhiều *Booking*.
+* Một *Booking* tương ứng với một chuyến được thực hiện sau khi tìm được Driver.
+* Một *Driver* có thể thực hiện nhiều *Trip* theo thời gian.
+* Một *Driver* có phương tiện và nhiều bản ghi *Location*.
+* Một *Trip* có thông tin *Fare* và *Payment*.
+* Một *Trip hoàn thành* có thể có *Rating* từ Customer.
+* Một *Payment* có thể phát sinh dữ liệu *Transaction*.
+
+Lưu ý: đây là *conceptual data model* suy ra từ requirement. Tài liệu chưa cung cấp chi tiết attribute, khóa chính/khóa ngoại hay cardinality đầy đủ, nên các phần đó cần được làm rõ ở bước *ERD / Logical Data Model* sau. 
 # Bước 10. Xác định yêu cầu không phải chức năng
 
 
