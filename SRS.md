@@ -139,7 +139,55 @@ Từ Business Goal + Scope, ta chuyển nhu cầu kinh doanh thành các Busines
 | **BG7 – Khả năng mở rộng**                | **BR10:** Hệ thống cho phép tích hợp thêm dịch vụ, phương thức thanh toán và kênh thông báo.                 | Giúp hệ thống dễ phát triển trong tương lai.                |
 | **BG8 – Hỗ trợ ra quyết định**            | **BR11:** Hệ thống cung cấp báo cáo về số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế. | Giúp ban lãnh đạo theo dõi và ra quyết định.                |
 
-## Bước 6: 
+## Bước 6: Business Process
+
+| Bước   | Business Process                                               | Người thực hiện             |
+| ------ | -------------------------------------------------------------- | --------------------------- |
+| **1**  | Khách hàng đăng nhập và nhập **điểm đón, điểm đến, loại xe**   | Khách hàng                  |
+| **2**  | Khách hàng **gửi yêu cầu đặt xe**                              | Khách hàng                  |
+| **3**  | Hệ thống **tiếp nhận yêu cầu và tìm tài xế phù hợp**           | Hệ thống                    |
+| **4**  | Hệ thống gửi yêu cầu cho tài xế                                | Hệ thống                    |
+| **5**  | Tài xế **chấp nhận hoặc từ chối** chuyến                       | Tài xế                      |
+| **6**  | Nếu từ chối/không phản hồi → hệ thống **tìm tài xế khác**      | Hệ thống                    |
+| **7**  | Tài xế đến điểm đón và **cập nhật trạng thái**                 | Tài xế                      |
+| **8**  | Tài xế đón khách và **thực hiện chuyến đi**                    | Tài xế                      |
+| **9**  | Tài xế hoàn thành chuyến → hệ thống **tính cước**              | Tài xế + Hệ thống           |
+| **10** | Khách hàng **thanh toán** bằng tiền mặt hoặc điện tử           | Khách hàng                  |
+| **11** | Hệ thống gửi thông báo kết quả thanh toán                      | Hệ thống                    |
+| **12** | Khách hàng **đánh giá tài xế**                                 | Khách hàng                  |
+| **13** | Dữ liệu chuyến đi được **lưu vào hệ thống và phục vụ báo cáo** | Hệ thống/Nhân viên vận hành |
+
+dùng công cụ mermaid để vẽ sơ đồ
+
+## Bước 7: Viết phân rã yêu cầu chức năng (functional requirement decomposition)
+
+| Mã       | Yêu cầu chức năng                                              |
+| -------- | -------------------------------------------------------------- |
+| **FR01** | Kiểm tra tài xế đang sẵn sàng nhận chuyến                      |
+| **FR02** | Tìm tài xế phù hợp và gần điểm đón                             |
+| **FR03** | Gửi yêu cầu nhận chuyến cho tài xế                             |
+| **FR04** | Cho phép tài xế chấp nhận hoặc từ chối chuyến                  |
+| **FR05** | Tự động tìm tài xế khác khi tài xế từ chối hoặc không phản hồi |
+| **FR06** | Thông báo cho khách hàng khi tài xế được phân công             |
+| **FR07** | Theo dõi vị trí hiện tại của tài xế                            |
+| **FR08** | Theo dõi trạng thái chuyến đi                                  |
+| **FR09** | Cho phép tài xế cập nhật trạng thái chuyến                     |
+| **FR10** | Tính cước chuyến đi                                            |
+| **FR11** | Hỗ trợ thanh toán tiền mặt                                     |
+| **FR12** | Hỗ trợ thanh toán điện tử                                      |
+| **FR13** | Xử lý và thông báo khi thanh toán thất bại                     |
+| **FR14** | Gửi thông báo cho khách hàng và tài xế                         |
+| **FR15** | Lưu và xem lịch sử chuyến đi                                   |
+| **FR16** | Cho phép khách hàng đánh giá tài xế                            |
+| **FR17** | Quản lý thông tin khách hàng                                   |
+| **FR18** | Quản lý thông tin tài xế                                       |
+| **FR19** | Quản lý thông tin phương tiện                                  |
+| **FR20** | Quản lý và theo dõi các chuyến đi                              |
+| **FR21** | Tra cứu lịch sử giao dịch                                      |
+| **FR22** | Xử lý các chuyến đi bị lỗi                                     |
+| **FR23** | Phân quyền người sử dụng hệ thống                              |
+| **FR24** | Ghi nhận nhật ký các thao tác quan trọng                       |
+| **FR25** | Cung cấp báo cáo và thống kê hoạt động                         |
 
 
 
