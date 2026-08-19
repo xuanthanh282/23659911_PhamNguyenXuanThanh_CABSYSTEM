@@ -287,76 +287,188 @@ User/Admin
 | **NFR12** | **Khôi phục lỗi**              | Hệ thống phải có cơ chế xử lý và khôi phục khi xảy ra lỗi mạng, thanh toán hoặc dịch vụ bên ngoài.                               |
 
 ## Bước 11: Tiến hành thiết kế các use case (UC)
+```mermaid
 flowchart LR
+    %% Định nghĩa Tác nhân (Actors)
+    CUS(Khách hàng)
+    DRV(Tài xế)
+    ADM(Nhân viên vận hành)
+    PAY{{Cổng thanh toán}}
 
-    KH["👤 Khách hàng"]
-    TX["🚗 Tài xế"]
-    NV["👨‍💼 Nhân viên vận hành"]
-    BGD["👔 Ban giám đốc"]
-    QT["🔐 Quản trị viên"]
-
-    subgraph CAB["CAB SYSTEM – Nền tảng đặt xe"]
-
-        UC01(("Đăng ký tài khoản"))
-        UC02(("Đăng nhập"))
-        UC03(("Đặt xe"))
-        UC04(("Tìm tài xế sẵn có"))
-        UC05(("Nhận / Từ chối chuyến"))
-        UC06(("Theo dõi chuyến đi"))
-        UC07(("Cập nhật trạng thái chuyến"))
-        UC08(("Tính cước"))
-        UC09(("Thanh toán"))
-        UC10(("Nhận thông báo"))
-        UC11(("Xem lịch sử chuyến"))
-        UC12(("Đánh giá tài xế"))
-
-        UC13(("Quản lý khách hàng"))
-        UC14(("Quản lý tài xế"))
-        UC15(("Quản lý phương tiện"))
-        UC16(("Quản lý chuyến đi"))
-        UC17(("Xử lý chuyến bị lỗi"))
-        UC18(("Tra cứu giao dịch"))
-
-        UC19(("Xem báo cáo / thống kê"))
-        UC20(("Quản lý phân quyền"))
+    %% Ranh giới hệ thống (System Boundary)
+    subgraph Hệ thống CAB
+        direction TB
+        UC1([Đăng nhập / Đăng ký])
+        UC2([Đặt xe])
+        UC3([Theo dõi chuyến đi])
+        UC4([Thanh toán cước phí])
+        UC5([Đánh giá tài xế])
+        
+        UC6([Bật/Tắt sẵn sàng])
+        UC7([Chấp nhận/Từ chối chuyến])
+        UC8([Cập nhật trạng thái chuyến])
+        
+        UC9([Quản lý User & Phương tiện])
+        UC10([Giám sát chuyến đi lỗi])
+        UC11([Xem báo cáo thống kê])
     end
 
-    %% Khách hàng
-    KH --> UC01
-    KH --> UC02
-    KH --> UC03
-    KH --> UC06
-    KH --> UC09
-    KH --> UC10
-    KH --> UC11
-    KH --> UC12
+    %% Tương tác của Khách hàng
+    CUS --- UC1
+    CUS --- UC2
+    CUS --- UC3
+    CUS --- UC4
+    CUS --- UC5
 
-    %% Tài xế
-    TX --> UC01
-    TX --> UC02
-    TX --> UC05
-    TX --> UC07
-    TX --> UC10
+    %% Tương tác của Tài xế
+    DRV --- UC1
+    DRV --- UC6
+    DRV --- UC7
+    DRV --- UC8
 
-    %% Nhân viên vận hành
-    NV --> UC13
-    NV --> UC14
-    NV --> UC15
-    NV --> UC16
-    NV --> UC17
-    NV --> UC18
+    %% Tương tác của Admin
+    ADM --- UC9
+    ADM --- UC10
+    ADM --- UC11
 
-    %% Ban giám đốc
-    BGD --> UC19
-
-    %% Quản trị viên
-    QT --> UC20
-
-    %% Quan hệ giữa các Use Case
-    UC03 -.->|include| UC04
-    UC03 -.->|include| UC08
-    UC08 -.->|include| UC09
-    UC05 -.->|include| UC10
-    UC07 -.->|include| UC10
+    %% Tương tác với Hệ thống bên ngoài
+    UC4 -.->|<<include>>| PAY
+```
 ## Bước 12: Đặc tả use case 
+UC01-ĐẶT XE
+| Thành phần         | Nội dung                                                                                                                                                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC01                                                                                                                                                                                                                              |
+| **Tên Use Case**   | Đặt xe                                                                                                                                                                                                                            |
+| **Actor chính**    | Khách hàng                                                                                                                                                                                                                        |
+| **Mục tiêu**       | Cho phép khách hàng tạo yêu cầu đặt xe.                                                                                                                                                                                           |
+| **Tiền điều kiện** | Khách hàng đã đăng nhập.                                                                                                                                                                                                          |
+| **Hậu điều kiện**  | Yêu cầu đặt xe được tạo và hệ thống bắt đầu tìm tài xế.                                                                                                                                                                           |
+| **Luồng chính**    | 1. Khách hàng chọn chức năng Đặt xe.<br>2. Nhập điểm đón.<br>3. Nhập điểm đến.<br>4. Chọn loại xe.<br>5. Xác nhận yêu cầu.<br>6. Hệ thống lưu yêu cầu.<br>7. Hệ thống tìm tài xế phù hợp.<br>8. Thông báo kết quả cho khách hàng. |
+| **Ngoại lệ**       | Không tìm được tài xế → hệ thống thông báo cho khách hàng.                                                                                                                                                                        |
+UC02 – Tìm tài xế sẵn có
+| Thành phần         | Nội dung                                                                                                                                                                                                                                                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC02                                                                                                                                                                                                                                                                                     |
+| **Tên Use Case**   | Tìm tài xế sẵn có                                                                                                                                                                                                                                                                        |
+| **Actor chính**    | Hệ thống                                                                                                                                                                                                                                                                                 |
+| **Actor phụ**      | Tài xế                                                                                                                                                                                                                                                                                   |
+| **Mục tiêu**       | Tìm tài xế phù hợp để thực hiện chuyến xe.                                                                                                                                                                                                                                               |
+| **Tiền điều kiện** | Có yêu cầu đặt xe hợp lệ.                                                                                                                                                                                                                                                                |
+| **Hậu điều kiện**  | Một tài xế được phân công hoặc thông báo không tìm được tài xế.                                                                                                                                                                                                                          |
+| **Luồng chính**    | 1. Hệ thống nhận yêu cầu đặt xe.<br>2. Kiểm tra các tài xế đang sẵn sàng.<br>3. Kiểm tra vị trí tài xế.<br>4. Lọc tài xế phù hợp với loại xe.<br>5. Ưu tiên tài xế gần khách hàng.<br>6. Gửi yêu cầu nhận chuyến.<br>7. Tài xế chấp nhận.<br>8. Hệ thống xác nhận tài xế cho khách hàng. |
+| **Ngoại lệ**       | Tài xế từ chối/không phản hồi → hệ thống tìm tài xế khác.<br>Không còn tài xế phù hợp → thông báo khách hàng.                                                                                                                                                                            |
+UC03 – Chấp nhận/Từ chối chuyến
+| Thành phần         | Nội dung                                                                                                                                                   |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC03                                                                                                                                                       |
+| **Tên Use Case**   | Chấp nhận/Từ chối chuyến                                                                                                                                   |
+| **Actor chính**    | Tài xế                                                                                                                                                     |
+| **Tiền điều kiện** | Tài xế đang ở trạng thái sẵn sàng và nhận được yêu cầu chuyến.                                                                                             |
+| **Hậu điều kiện**  | Chuyến được tài xế nhận hoặc hệ thống tìm tài xế khác.                                                                                                     |
+| **Luồng chính**    | 1. Tài xế nhận thông báo chuyến mới.<br>2. Xem thông tin chuyến.<br>3. Chọn **Chấp nhận**.<br>4. Hệ thống xác nhận tài xế.<br>5. Thông báo cho khách hàng. |
+| **Ngoại lệ**       | Tài xế chọn **Từ chối** → hệ thống tiếp tục tìm tài xế khác.                                                                                               |
+
+UC04 – Theo dõi chuyến đi
+| Thành phần         | Nội dung                                                                                                                                                       |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC04                                                                                                                                                           |
+| **Tên Use Case**   | Theo dõi chuyến đi                                                                                                                                             |
+| **Actor chính**    | Khách hàng                                                                                                                                                     |
+| **Tiền điều kiện** | Khách hàng đã có chuyến được tài xế nhận.                                                                                                                      |
+| **Hậu điều kiện**  | Khách hàng biết được vị trí và trạng thái hiện tại của chuyến.                                                                                                 |
+| **Luồng chính**    | 1. Khách hàng mở chuyến đang thực hiện.<br>2. Hệ thống hiển thị vị trí tài xế.<br>3. Hiển thị trạng thái chuyến.<br>4. Cập nhật thông tin theo thời gian thực. |
+| **Ngoại lệ**       | Mất kết nối → hiển thị thông tin cập nhật gần nhất và đồng bộ lại khi có kết nối.                                                                              |
+
+UC05 – Cập nhật trạng thái chuyến
+| Thành phần         | Nội dung                                                                                                                                                                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC05                                                                                                                                                                                                                                                |
+| **Tên Use Case**   | Cập nhật trạng thái chuyến                                                                                                                                                                                                                          |
+| **Actor chính**    | Tài xế                                                                                                                                                                                                                                              |
+| **Tiền điều kiện** | Tài xế đã nhận chuyến.                                                                                                                                                                                                                              |
+| **Hậu điều kiện**  | Trạng thái chuyến được cập nhật.                                                                                                                                                                                                                    |
+| **Luồng chính**    | 1. Tài xế đến điểm đón → cập nhật **Đã đến**.<br>2. Đón khách → cập nhật **Đã đón khách**.<br>3. Bắt đầu di chuyển → cập nhật **Đang di chuyển**.<br>4. Đến điểm đến → cập nhật **Hoàn thành**.<br>5. Hệ thống thông báo trạng thái cho khách hàng. |
+
+UC06 – Thanh toán cước phí
+| Thành phần         | Nội dung                                                                                                                                                                                                                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC06                                                                                                                                                                                                                                                                                                          |
+| **Tên Use Case**   | Thanh toán cước phí                                                                                                                                                                                                                                                                                           |
+| **Actor chính**    | Khách hàng                                                                                                                                                                                                                                                                                                    |
+| **Actor phụ**      | Cổng thanh toán                                                                                                                                                                                                                                                                                               |
+| **Tiền điều kiện** | Chuyến xe đã hoàn thành và hệ thống đã tính cước.                                                                                                                                                                                                                                                             |
+| **Hậu điều kiện**  | Giao dịch được ghi nhận thành công hoặc thất bại.                                                                                                                                                                                                                                                             |
+| **Luồng chính**    | 1. Hệ thống hiển thị số tiền cần thanh toán.<br>2. Khách hàng chọn phương thức thanh toán.<br>3. Nếu tiền mặt → xác nhận thanh toán.<br>4. Nếu điện tử → chuyển đến cổng thanh toán.<br>5. Cổng thanh toán trả kết quả.<br>6. Hệ thống cập nhật trạng thái giao dịch.<br>7. Thông báo kết quả cho khách hàng. |
+| **Ngoại lệ**       | Thanh toán điện tử thất bại → thông báo lỗi và cho phép thanh toán lại theo chính sách.                                                                                                                                                                                                                       |
+
+
+UC07 – Đánh giá tài xế
+| Thành phần         | Nội dung                                                                                                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC07                                                                                                                                                                        |
+| **Tên Use Case**   | Đánh giá tài xế                                                                                                                                                             |
+| **Actor chính**    | Khách hàng                                                                                                                                                                  |
+| **Tiền điều kiện** | Chuyến xe đã hoàn thành.                                                                                                                                                    |
+| **Hậu điều kiện**  | Đánh giá được lưu vào hệ thống.                                                                                                                                             |
+| **Luồng chính**    | 1. Khách hàng mở lịch sử chuyến.<br>2. Chọn chuyến đã hoàn thành.<br>3. Chọn số điểm đánh giá.<br>4. Nhập nhận xét nếu có.<br>5. Gửi đánh giá.<br>6. Hệ thống lưu đánh giá. |
+| **Ngoại lệ**       | Khách hàng chưa hoàn thành chuyến → không được đánh giá.                                                                                                                    |
+
+UC08 – Quản lý chuyến đi
+| Thành phần         | Nội dung                                                                                                                                                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC08                                                                                                                                                                                     |
+| **Tên Use Case**   | Quản lý chuyến đi                                                                                                                                                                        |
+| **Actor chính**    | Nhân viên vận hành                                                                                                                                                                       |
+| **Tiền điều kiện** | Nhân viên đã đăng nhập và có quyền quản lý.                                                                                                                                              |
+| **Hậu điều kiện**  | Thông tin chuyến được xem hoặc xử lý.                                                                                                                                                    |
+| **Luồng chính**    | 1. Nhân viên mở danh sách chuyến.<br>2. Tìm kiếm/lọc chuyến.<br>3. Xem chi tiết chuyến.<br>4. Theo dõi trạng thái chuyến.<br>5. Xử lý chuyến có vấn đề nếu cần.<br>6. Lưu kết quả xử lý. |
+
+UC09 – Xem báo cáo thống kê
+| Thành phần         | Nội dung                                                                                                                                                                         |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mã Use Case**    | UC09                                                                                                                                                                             |
+| **Tên Use Case**   | Xem báo cáo thống kê                                                                                                                                                             |
+| **Actor chính**    | Ban giám đốc                                                                                                                                                                     |
+| **Tiền điều kiện** | Người dùng có quyền xem báo cáo.                                                                                                                                                 |
+| **Hậu điều kiện**  | Báo cáo được hiển thị.                                                                                                                                                           |
+| **Luồng chính**    | 1. Ban giám đốc chọn Báo cáo.<br>2. Chọn khoảng thời gian.<br>3. Hệ thống tổng hợp dữ liệu.<br>4. Hiển thị số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế. |
+
+
 ## Bước 13: Acception tiêu chí chấp nhận AC
+| Mã       | Chức năng           | Acceptance Criteria                                                                                                    |
+| -------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **AC01** | Đăng ký / Đăng nhập | Người dùng nhập đúng thông tin thì đăng nhập thành công; thông tin sai phải hiển thị thông báo lỗi.                    |
+| **AC02** | Đặt xe              | Khách hàng nhập đầy đủ điểm đón, điểm đến và loại xe thì hệ thống tạo được yêu cầu đặt xe.                             |
+| **AC03** | Tìm tài xế          | Hệ thống chỉ tìm các tài xế đang **sẵn sàng**, phù hợp loại xe và ưu tiên tài xế gần điểm đón.                         |
+| **AC04** | Phân công tài xế    | Khi tài xế chấp nhận, hệ thống phải xác nhận tài xế cho chuyến và thông báo cho khách hàng.                            |
+| **AC05** | Tài xế từ chối      | Khi tài xế từ chối hoặc không phản hồi, hệ thống phải tự động tìm tài xế khác mà khách hàng không cần đặt lại.         |
+| **AC06** | Theo dõi chuyến     | Khách hàng phải xem được tài xế, vị trí và trạng thái hiện tại của chuyến.                                             |
+| **AC07** | Cập nhật chuyến     | Tài xế phải cập nhật được các trạng thái: **Đã đến → Đã đón khách → Đang di chuyển → Hoàn thành**.                     |
+| **AC08** | Tính cước           | Sau khi chuyến hoàn thành, hệ thống phải tính và hiển thị số tiền khách hàng cần thanh toán.                           |
+| **AC09** | Thanh toán          | Hệ thống phải hỗ trợ tiền mặt và thanh toán điện tử; giao dịch điện tử phải trả về trạng thái thành công/thất bại.     |
+| **AC10** | Thanh toán thất bại | Khi thanh toán điện tử thất bại, hệ thống phải thông báo lỗi và cho phép khách hàng thực hiện lại theo chính sách.     |
+| **AC11** | Thông báo           | Khách hàng và tài xế phải nhận được thông báo khi xảy ra các sự kiện quan trọng của chuyến.                            |
+| **AC12** | Đánh giá            | Chỉ khách hàng có chuyến đã hoàn thành mới được đánh giá tài xế.                                                       |
+| **AC13** | Quản lý vận hành    | Nhân viên có quyền phải xem và quản lý được khách hàng, tài xế, phương tiện và chuyến đi.                              |
+| **AC14** | Phân quyền          | Người dùng không có quyền phải bị từ chối khi truy cập chức năng quản trị.                                             |
+| **AC15** | Báo cáo             | Ban giám đốc phải xem được số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả tài xế.                       |
+| **AC16** | Bảo mật             | Người dùng phải được xác thực trước khi truy cập các chức năng yêu cầu tài khoản và dữ liệu nhạy cảm phải được bảo vệ. |
+
+## Bước 14: Truy xuất nguồn gốc yêu cầu
+| Business Goal                  | Business Requirement               | Functional Requirement                                  | Use Case                              | Acceptance Criteria                                              |
+| ------------------------------ | ---------------------------------- | ------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------- |
+| **BG1 – Tự động hóa đặt xe**   | BR01 – Cho phép khách hàng đặt xe  | **FR01 – Tạo yêu cầu đặt xe**                           | **UC01 – Đặt xe**                     | **AC01 – Tạo yêu cầu thành công khi nhập đủ thông tin**          |
+| **BG1 – Tự động hóa đặt xe**   | BR02 – Tự động tìm tài xế          | **FR02 – Tìm tài xế sẵn có**                            | **UC02 – Tìm tài xế**                 | **AC02 – Chỉ tìm tài xế phù hợp và sẵn sàng**                    |
+| **BG1 – Tự động hóa đặt xe**   | BR03 – Tìm tài xế khác khi từ chối | **FR03 – Tìm tài xế thay thế**                          | **UC03 – Chấp nhận/Từ chối chuyến**   | **AC03 – Tự động tìm tài xế khác khi bị từ chối/không phản hồi** |
+| **BG2 – Nâng cao trải nghiệm** | BR04 – Cho phép theo dõi chuyến    | **FR04 – Theo dõi chuyến đi**                           | **UC04 – Theo dõi chuyến**            | **AC04 – Hiển thị vị trí và trạng thái chuyến**                  |
+| **BG2 – Nâng cao trải nghiệm** | BR05 – Cập nhật trạng thái chuyến  | **FR05 – Cập nhật trạng thái**                          | **UC05 – Cập nhật trạng thái chuyến** | **AC05 – Cập nhật đúng các trạng thái chuyến**                   |
+| **BG4 – Quản lý thanh toán**   | BR06 – Tính và thanh toán cước     | **FR06 – Tính cước**                                    | **UC06 – Thanh toán cước**            | **AC06 – Hiển thị đúng số tiền cần thanh toán**                  |
+| **BG4 – Quản lý thanh toán**   | BR07 – Hỗ trợ thanh toán điện tử   | **FR07 – Thanh toán điện tử**                           | **UC06 – Thanh toán cước**            | **AC07 – Ghi nhận thành công/thất bại giao dịch**                |
+| **BG2 – Nâng cao trải nghiệm** | BR08 – Gửi thông báo               | **FR08 – Gửi thông báo**                                | **UC07 – Gửi thông báo**              | **AC08 – Gửi thông báo khi có sự kiện quan trọng**               |
+| **BG2 – Nâng cao trải nghiệm** | BR09 – Cho phép đánh giá           | **FR09 – Đánh giá tài xế**                              | **UC08 – Đánh giá tài xế**            | **AC09 – Chỉ đánh giá được sau khi chuyến hoàn thành**           |
+| **BG3 – Nâng cao vận hành**    | BR10 – Quản lý dữ liệu vận hành    | **FR10 – Quản lý khách hàng/tài xế/phương tiện/chuyến** | **UC09 – Quản lý vận hành**           | **AC10 – Nhân viên có quyền có thể xem và quản lý dữ liệu**      |
+| **BG8 – Hỗ trợ ra quyết định** | BR11 – Cung cấp báo cáo            | **FR11 – Báo cáo thống kê**                             | **UC10 – Xem báo cáo**                | **AC11 – Hiển thị đầy đủ các chỉ số yêu cầu**                    |
+| **BG6 – Bảo mật**              | BR12 – Kiểm soát truy cập          | **FR12 – Phân quyền**                                   | **UC11 – Quản lý phân quyền**         | **AC12 – Người không có quyền không thể truy cập**               |
+
+
